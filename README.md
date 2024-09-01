@@ -200,5 +200,93 @@ sudo rm -rf /etc/init.d/jenkins
 ls /var/log/jenkins
 9.
 
+########################################################################################################################
 
 
+PROMETHEOUS WORKING FLOW
+
+1.go to google search
+prometheous download
+sudo apt update
+sudo apt upgrade -y
+sudo useradd --no-create-home --shell /bin/false prometheus
+sudo mkdir /etc/prometheus
+sudo mkdir /var/lib/prometheus
+wget https://github.com/prometheus/prometheus/releases/download/v2.49.0/prometheus-2.49.0.linux-amd64.tar.gz
+tar xvf prometheus-*.tar.gz
+cd promenteous file
+sudo mv prometheus promtool /usr/local/bin/
+sudo mv consoles/ console_libraries/ /etc/prometheus/
+sudo mv prometheus.yml /etc/prometheus/
+sudo chown -R prometheus:prometheus /etc/prometheus
+sudo chown -R prometheus:prometheus /var/lib/prometheus
+sudo chown prometheus:prometheus /usr/local/bin/prometheus
+sudo chown prometheus:prometheus /usr/local/bin/promtool
+CREATE FILE
+sudo nano /etc/systemd/system/prometheus.service
+
+
+FILE 
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/usr/local/bin/prometheus \
+    --config.file /etc/prometheus/prometheus.yml \
+    --storage.tsdb.path /var/lib/prometheus/ \
+    --web.console.templates=/etc/prometheus/consoles \
+    --web.console.libraries=/etc/prometheus/console_libraries
+
+[Install]
+WantedBy=multi-user.target
+
+ctrl + x
+y
+edit file name
+enter
+
+sudo systemctl daemon-reload
+sudo systemctl start prometheus
+sudo systemctl enable prometheus
+
+sudo systemctl status prometheus
+
+Prometheus allow port is 9090
+
+""STORAGE CHECK COMMANDS""
+
+1.Check Disk Usage by Directory-->du -h --max-depth=1 | sort -h
+du stands for disk usage.
+-h makes the output human-readable (e.g., KB, MB, GB).
+--max-depth=1 restricts the depth to show only the top-level directories.
+sort -h sorts the output by size, with the largest directories at the bottom.
+2.Find Largest Directories and Files----->sudo du -ah / | sort -rh | head -n 20
+-a includes both files and directories.
+-r sorts in reverse order, showing the largest first.
+head -n 20 limits the output to the top 20 largest entries.
+3.Check a Specific Directory------>du -h /home --max-depth=1 | sort -h
+4.Check Disk Usage for Root Directory----->sudo du -xh / | sort -h | tail -n 20
+-x stays within the filesystem (e.g., avoids crossing into mounted filesystems).
+tail -n 20 shows the largest 20 files or directories at the bottom.
+5.Using ncdu for Interactive Disk Usage---->sudo apt update
+                                      ----->>sudo apt install ncdu
+                                 ----------->ncdu /
+                                 close the window--->ctrl + z
+6.Clear Specific Application Caches--->sudo apt-get clean
+                                   ---->rm -rf ~/.cache/thumbnails/*
+7.Filesystem      Size  Used Avail Use% Mounted on---->df -h
+8.all files storage ----->df -ah or df -all or df -al 
+9.to show storage and file names  only used space---> du -h
+10.to show storage and file names  all space---> du -a
+
+
+ADDING NODE_EXPORTER IN OTHER SERVER
+
+wget https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz
+tar -zxvf node_exporter_file
+cd node_exporter_file
