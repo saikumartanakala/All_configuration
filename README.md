@@ -285,8 +285,53 @@ tail -n 20 shows the largest 20 files or directories at the bottom.
 10.to show storage and file names  all space---> du -a
 
 
-ADDING NODE_EXPORTER IN OTHER SERVER
 
-wget https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz
-tar -zxvf node_exporter_file
-cd node_exporter_file
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+PROMETHEOUS SETUP
+1.go to google search promethous download
+2.select linux 
+3.copy the link
+4.wget paste the link
+5. tar -zxvf paste the link
+6.after the extraction of file
+7.cd to that file
+8.rum the promenthous server
+9.how to start the server ./Prometheus
+10.sudo lsof -i :9090(check the whiich port is allocated )
+11.check the promethous is running are not(http://3.108.40.205:9090/)
+12.search the required metrics and execute
+
+INSTALL NODE_EXPORTER
+1.1.go to google search promethous download
+2.select linux 
+3.copy the link
+4.wget paste the link
+5. tar -zxvf paste the link
+6.after the extraction of file
+7.cd to that file
+8.run node_exporter
+9../node_exporter
+10.how to stop the node_exporter --->ctrl + c
+11.after that refresh the all items(Prometheus server,node server, promenthous browser, node_exporter bowser)
+12.node_exporter bowser is stop then we need to start again
+13.at this time the node_exporter is stops so we need to write the service file
+14.cd /etc/systemd/system/
+15. vi node_exporter.service
+16.
+[Unit]
+Description=Node Exporter
+Requires=node_exporter.socket
+
+[Service]
+EnvironmentFile=/etc/sysconfig/node_exporter
+ExecStart=/root/node/node_exporter --web.systemd-socket $OPTIONS
+
+[Install]
+WantedBy=multi-user.target
+17.cd
+18.cd node file
+19.systemctl daemon-reload
