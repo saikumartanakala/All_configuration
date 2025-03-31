@@ -335,3 +335,38 @@ WantedBy=multi-user.target
 17.cd
 18.cd node file
 19.systemctl daemon-reload
+
+
+
+********************************************************
+install docker in amazon linux2
+
+1.sudo yum update -y
+2.sudo yum install docker -y
+3.sudo service docker start
+4.sudo systemctl enable docker
+5.docker info
+
+1.docker build -t image_name .
+2.sudo yum install java-17-amazon-corretto maven docker -y
+
+
+
+maven installation
+1.wget https://downloads.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz
+2.tar -xvzf apache-maven-3.8.8-bin.tar.gz
+3.sudo mv apache-maven-3.8.8 /opt/maven
+4.vi ~/.bash_profile
+5.export M2_HOME=/opt/maven
+export PATH=$M2_HOME/bin:$PATH
+6.source ~/.bash_profile
+7.mvn -version
+
+java versions
+1.java -version
+2.sudo yum install java-17-amazon-corretto -y
+sudo alternatives --config java
+3.java -version
+
+
+
